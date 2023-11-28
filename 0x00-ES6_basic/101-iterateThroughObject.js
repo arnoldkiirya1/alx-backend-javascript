@@ -1,9 +1,10 @@
-// 101-iterateThroughObject.js
-
 export default function iterateThroughObject(reportWithIterator) {
-  const resultArray = [];
+  const employees = [];
+
+  // eslint-disable-next-line no-restricted-syntax
   for (const employee of reportWithIterator) {
-    resultArray.push(employee.value);
+    employees.push(employee);
   }
-  return resultArray.join(' | ');
+
+  return employees.join(' | ');
 }
