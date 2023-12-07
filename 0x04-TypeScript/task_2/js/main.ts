@@ -1,67 +1,38 @@
-interface Student {
-  firstName: string,
-  lastName: string,
-  age: number,
-  location: string
+interface DirectorInterface {
+  workFromHome(): string;
+  getCoffeeBreak(): string;
+  workDirectorTasks(): string;
 }
 
-const student1: Student = {
-  firstName: 'Paul',
-  lastName: 'Jerry',
-  age: 27,
-  location: 'Nigeria'
+interface TeacherInterface {
+  workFromHome(): string;
+  getCoffeeBreak(): string;
+  workTeacherTasks(): string;
+}
+  
+class Director implements DirectorInterface {
+  workFromHome = () : string => 'Working from home';
+  getCoffeeBreak = () : string => 'Getting a coffee break';
+  workDirectorTasks = () : string => 'Getting to director tasks';
 }
 
-const student2: Student = {
-  firstName: 'Jerry',
-  lastName: 'Parkerson',
-  age: 28,
-  location: 'Edo state'
+class Teacher implements TeacherInterface {
+  workFromHome = () : string => 'Cannot work from home';
+  getCoffeeBreak = () : string => 'Cannot have a break';
+  workTeacherTasks = () : string => 'Getting to work';
 }
 
-const studentList: Array<Student> = [student1, student2];
+export const createEmployee = (salary: number | string): Teacher | Director => Number(salary) < 500 ? new Teacher() : new Director();
 
-const body: HTMLBodyElement = document.getElementsByTagName("body")[0];
-const table: HTMLTableElement = document.createElement('table');
-const thead: HTMLTableSectionElement = document.createElement('thead');
-const th1: HTMLTableCellElement = document.createElement('th');
-const th2: HTMLTableCellElement = document.createElement('th');
+export const isDirector = (employee: Teacher | Director): boolean => employee instanceof Director;
 
-th1.innerText = 'First Name';
-th2.innerText = 'Location';
-th1.style.border = '1px solid gray';
-th2.style.border = '1px solid gray';
-th1.style.padding = '.5rem';
-th2.style.padding = '.5rem';
-table.style.border = '1px solid gray';
-table.style.borderCollapse = 'collapse';
+export const executeWork = (employee: Teacher | Director): void => {
+  const work = employee instanceof Teacher? employee.workTeacherTasks() : employee.workDirectorTasks();
+  console.log(work)
+}
 
+type Subjects = 'Math' | 'History';
 
-
-thead.append(th1);
-thead.append(th2);
-
-table.append(thead);
-
-
-studentList.forEach((student) => {
-  const row: HTMLTableRowElement = document.createElement('tr');
-
-  const column1: HTMLTableCellElement = document.createElement('td');
-  const column2: HTMLTableCellElement = document.createElement('td');
-
-  column1.innerText = student.firstName;
-  column2.innerText = student.lastName;
-
-  column1.style.border = '1px solid gray';
-  column2.style.border = '1px solid gray';
-  column1.style.padding = '.5rem';
-  column2.style.padding = '.5rem';
-
-  row.append(column1);
-  row.append(column2)
-
-  table.append(row);
-});
-
-body.append(table)
+export const teachClass = (todayClass: Subjects) : string => {
+  return todayClass === 'Math' ? 'Teaching Math': 'Teaching History';
+}
